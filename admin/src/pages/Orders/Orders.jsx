@@ -1,44 +1,49 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Orders.css';
 import axios from 'axios';
-import { StoreContext } from '../../context/StoreContext';
 
 const Orders = () => {
-  const { url } = useContext(StoreContext);
+  const url = "http://localhost:3000"; // ✅ Use your actual backend URL in production
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const res = await axios.get(`${url}/api/order/list`);
         if (res.data.success) {
-          setOrders(res.data.orders);
+          setOrders(res.data.orders || []);
         } else {
-          alert("Failed to fetch orders");
+          alert("❌ Failed to fetch orders from server");
         }
       } catch (err) {
         console.error("❌ Error fetching orders:", err);
-        alert("Server error while fetching orders");
+        alert("❌ Server error while fetching orders");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchOrders();
-  }, [url]);
+  }, []);
 
   return (
     <div className="orders-page">
       <h2>All Orders</h2>
-      <div className="orders-table">
-        <div className="orders-header">
-          <p>User ID</p>
-          <p>Amount</p>
-          <p>Status</p>
-          <p>Date</p>
-          <p>Payment</p>
-        </div>
 
-        {orders.length > 0 ? (
-          orders.map((order, index) => (
+      {loading ? (
+        <p>Loading orders...</p>
+      ) : orders.length > 0 ? (
+        <div className="orders-table">
+          <div className="orders-header">
+            <p>User ID</p>
+            <p>Amount</p>
+            <p>Status</p>
+            <p>Date</p>
+            <p>Payment</p>
+          </div>
+
+          {orders.map((order, index) => (
             <div className="orders-row" key={index}>
               <p>{order.userId || "Guest"}</p>
               <p>₹{order.amount}</p>
@@ -46,11 +51,11 @@ const Orders = () => {
               <p>{new Date(order.date).toLocaleString()}</p>
               <p>{order.payment ? "✅ Paid" : "❌ Unpaid"}</p>
             </div>
-          ))
-        ) : (
-          <p style={{ marginTop: "20px", color: "gray" }}>No orders found.</p>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p style={{ marginTop: "20px", color: "gray" }}>No orders found.</p>
+      )}
     </div>
   );
 };

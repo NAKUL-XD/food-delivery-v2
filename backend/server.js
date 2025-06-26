@@ -8,37 +8,35 @@ import cartRouter from './routes/cartRoute.js';
 import paymentRoute from './routes/paymentRoute.js';
 import orderRoutes from './routes/orderRoutes.js';
 
-
-
-
-
-
-//app config
-const app = express()
+const app = express();
 connectDB();
-const port = 3000
+const port = process.env.PORT || 3000;
 
+// ✅ Fix CORS
+app.use(cors({
+  origin: [
+    "http://localhost:5174",
+    "https://your-frontend.netlify.app"
+  ],
+  credentials: true
+}));
 
-
-//middleware
-app.use(express.json())
+// ✅ Middleware
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors())
 
-
-//api endpoints
+// ✅ Correct API Endpoints — NO full URLs!
 app.use('/api/food', foodRouter);
-app.use('/images', express.static('uploads')); // Serve static files from the uploads directory
-app.use('/api/user', userRouter); // Assuming you have userRouter defined
-app.use("/api/cart",cartRouter); // Assuming you have cartRouter defined
+app.use('/api/user', userRouter);
+app.use('/api/cart', cartRouter);
 app.use('/api/payment', paymentRoute);
-app.use("/api/order", orderRoutes);
-
+app.use('/api/order', orderRoutes);
+app.use('/images', express.static('uploads'));
 
 app.get('/', (req, res) => {
-    res.send("API is running")
-})
+  res.send("API is running");
+});
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`)
-})
+  console.log(`✅ Server is running on http://localhost:${port}`);
+});

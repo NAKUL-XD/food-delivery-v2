@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "685acc002c55eab65203e47b"
+  },
+  "name": "chicken roll",
+  "description": "high protein",
+  "price": 12,
+  "image": "1750780928107-food_6.png",
+  "category": "Rolls",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "685ad8c92c55eab65203e48d"
+  },
+  "name": "cheese cake",
+  "description": "sweet",
+  "price": 12,
+  "image": "1750784201871-food_20.png",
+  "category": "Desert",
+  "__v": 0
+}]

@@ -18,9 +18,11 @@ const StoreContextProvider = (props) => {
 
     if (token) {
       try {
-        await axios.post(`${url}/api/cart/add`, { itemId }, { headers: { token } });
+        await axios.post(`${url}/api/cart/add`, { itemId }, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
       } catch (error) {
-        console.error("Error adding item to cart:", error);
+        console.error("❌ Error adding item to cart:", error);
       }
     }
   };
@@ -39,9 +41,11 @@ const StoreContextProvider = (props) => {
 
     if (token) {
       try {
-        await axios.post(`${url}/api/cart/remove`, { itemId }, { headers: { token } });
+        await axios.post(`${url}/api/cart/remove`, { itemId }, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
       } catch (error) {
-        console.error("Error removing item from cart:", error);
+        console.error("❌ Error removing item from cart:", error);
       }
     }
   };
@@ -52,7 +56,7 @@ const StoreContextProvider = (props) => {
       const response = await axios.get(`${url}/api/food/list`);
       setFoodList(response.data.data);
     } catch (error) {
-      console.error("Error fetching food list:", error);
+      console.error("❌ Error fetching food list:", error);
     }
   };
 
@@ -60,14 +64,14 @@ const StoreContextProvider = (props) => {
   const fetchCart = async (authToken) => {
     try {
       const res = await axios.get(`${url}/api/cart/get`, {
-        headers: { token: authToken },
+        headers: { Authorization: `Bearer ${authToken}` }
       });
 
       if (res.data.success) {
         setCartItems(res.data.cartData); // Sync cart
       }
     } catch (err) {
-      console.error("Error fetching cart:", err);
+      console.error("❌ Error fetching cart:", err);
     }
   };
 

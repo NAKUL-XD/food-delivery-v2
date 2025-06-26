@@ -10,8 +10,8 @@ import Orders from './pages/Orders/Orders';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import './App.css'; // optional: import main styles if any
+import "./index.css";
+// optional: import main styles if any
 
 const App = () => {
   const url = "http://localhost:3000"; // ✅ Update this if needed

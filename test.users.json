@@ -1,0 +1,33 @@
+[{
+  "_id": {
+    "$oid": "685a8d782c55eab65203e46f"
+  },
+  "name": "Test User",
+  "email": "testuser@example.com",
+  "password": "$2b$10$U8NdI4U1uSMo629Nx2bAlesKuyc6F9mS0B8yS1pDsL3fMQtinHIbq",
+  "cartData": {},
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "685a8d9b2c55eab65203e472"
+  },
+  "name": "nakul",
+  "email": "test1@gmail.com",
+  "password": "$2b$10$WpWVrZ3tCTnln327Vir1D.rd0ljIvAKRYGWz8VG4lHV8D1EqeR2sG",
+  "cartData": {},
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "685ad9392c55eab65203e492"
+  },
+  "name": "random",
+  "email": "testtttt@gmail.com",
+  "password": "$2b$10$dUOajNM1ZcsnvjvkZY/b9uX8Ld2gherK4dwTslKbZ3AvKgxNIaT/C",
+  "cartData": {
+    "685acc002c55eab65203e47b": 2,
+    "685ad8c92c55eab65203e48d": 2
+  },
+  "__v": 0
+}]

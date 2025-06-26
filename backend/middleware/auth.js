@@ -1,24 +1,27 @@
 import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {
-  const { token } = req.headers;
-
-  if (!token) {
-    return res.json({
-      success: false,
-      message: "Not authorized, LogIn again !!",
-    });
-  }
-
   try {
-    const token_decode = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = token_decode.id; // ✅ Fix here
+    // ✅ Accept token from 'Authorization: Bearer <token>'
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "Not authorized, login again!",
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    req.userId = decoded.id; // attach userId to req
     next();
   } catch (error) {
-    console.log("Token Error:", error);
-    return res.json({
+    console.error("Token verification error:", error);
+    return res.status(401).json({
       success: false,
-      message: "Token is not valid, LogIn again !!",
+      message: "Invalid or expired token, login again!",
     });
   }
 };
