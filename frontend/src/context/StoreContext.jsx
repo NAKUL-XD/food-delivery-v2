@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api'; // ✅ Axios instance with baseURL from env
 
 export const StoreContext = createContext(null);
 
@@ -7,7 +7,6 @@ const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
-  const url = "http://localhost:3000";
 
   // ✅ Add to Cart
   const addToCart = async (itemId) => {
@@ -18,7 +17,7 @@ const StoreContextProvider = (props) => {
 
     if (token) {
       try {
-        await axios.post(`${url}/api/cart/add`, { itemId }, {
+        await api.post('/api/cart/add', { itemId }, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } catch (error) {
@@ -41,7 +40,7 @@ const StoreContextProvider = (props) => {
 
     if (token) {
       try {
-        await axios.post(`${url}/api/cart/remove`, { itemId }, {
+        await api.post('/api/cart/remove', { itemId }, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } catch (error) {
@@ -53,7 +52,7 @@ const StoreContextProvider = (props) => {
   // ✅ Fetch food list
   const fetchFoodList = async () => {
     try {
-      const response = await axios.get(`${url}/api/food/list`);
+      const response = await api.get('/api/food/list');
       setFoodList(response.data.data);
     } catch (error) {
       console.error("❌ Error fetching food list:", error);
@@ -63,12 +62,12 @@ const StoreContextProvider = (props) => {
   // ✅ Fetch cart from backend
   const fetchCart = async (authToken) => {
     try {
-      const res = await axios.get(`${url}/api/cart/get`, {
+      const res = await api.get('/api/cart/get', {
         headers: { Authorization: `Bearer ${authToken}` }
       });
 
       if (res.data.success) {
-        setCartItems(res.data.cartData); // Sync cart
+        setCartItems(res.data.cartData);
       }
     } catch (err) {
       console.error("❌ Error fetching cart:", err);
@@ -85,7 +84,7 @@ const StoreContextProvider = (props) => {
     return total;
   };
 
-  // ✅ Total cart item count (for navbar)
+  // ✅ Total cart item count
   const getCartItemCount = () => {
     return Object.values(cartItems).reduce((acc, qty) => acc + qty, 0);
   };
@@ -97,7 +96,7 @@ const StoreContextProvider = (props) => {
       const savedToken = localStorage.getItem("token");
       if (savedToken) {
         setToken(savedToken);
-        await fetchCart(savedToken); // 👈 sync cart
+        await fetchCart(savedToken);
       }
     };
     init();
@@ -113,7 +112,6 @@ const StoreContextProvider = (props) => {
     token,
     setToken,
     setCartItems,
-    url,
   };
 
   return (

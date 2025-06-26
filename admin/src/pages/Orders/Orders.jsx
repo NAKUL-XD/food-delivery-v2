@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './Orders.css';
-import axios from 'axios';
+import api from '../../api'; // ✅ Axios instance with VITE_API_URL
 
 const Orders = () => {
-  const url = "http://localhost:3000"; // ✅ Use your actual backend URL in production
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`${url}/api/order/list`);
+        const res = await api.get('/api/order/list');
         if (res.data.success) {
           setOrders(res.data.orders || []);
         } else {
