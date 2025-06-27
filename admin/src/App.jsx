@@ -11,10 +11,10 @@ import Orders from './pages/Orders/Orders';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./index.css";
-// optional: import main styles if any
 
 const App = () => {
-  const url = "http://localhost:3000"; // ✅ Update this if needed
+  // ✅ Correct: Read URL from env, fallback to localhost for dev
+  const url = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
   return (
     <div>
