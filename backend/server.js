@@ -15,8 +15,10 @@ const port = process.env.PORT || 3000;
 // ✅ Fix CORS
 app.use(cors({
   origin: [
-    "http://localhost:5174",
-    "https://your-frontend.netlify.app"
+    "http://localhost:5173", // local admin dev port
+    "http://localhost:5174", // local frontend if needed
+    "https://https://foodfrontend1.netlify.app", // deployed user site
+    "https://https://adminpanellz.netlify.app     // ✅ deployed admin site!
   ],
   credentials: true
 }));
