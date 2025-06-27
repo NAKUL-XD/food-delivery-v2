@@ -31,12 +31,17 @@ const Add = ({ url }) => {
     formData.append("image", image);
 
     try {
-      const response = await axios.post(`${url}/api/food/add`, formData);
+      const response = await axios.post(`${url}/api/food/add`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
       if (response.data.success) {
         setData((prevData) => ({
           name: '',
           description: '',
-          category: prevData.category,  // ✅ Preserve selected category
+          category: prevData.category, // ✅ Preserve category
           price: ''
         }));
         setImage(false);
@@ -112,7 +117,7 @@ const Add = ({ url }) => {
               value={data.price}
               type="number"
               name="price"
-             placeholder="₹200"
+              placeholder="₹200"
               min="1"
               required
             />
